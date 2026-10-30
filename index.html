@@ -1,0 +1,1016 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NOTHING × CMF — звук, очищенный до нуля</title>
+<meta name="description" content="Две модели, один принцип: убрать всё лишнее. Nothing Headphone (1) Pro и CMF Clip Pro.">
+<meta name="theme-color" content="#08080A">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box}
+
+:root{
+  --bg:#08080A;
+  --panel:#0E0E11;
+  --panel-2:#131317;
+  --ink:#F4F3EF;
+  --muted:#8C8C93;
+  --line:#212127;
+  --accent:#FF4D00;
+  --r:18px;
+  --max:1280px;
+  --pad:clamp(18px,4vw,56px);
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Space Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+/* плёнка зерна поверх всего — индустриальная текстура */
+body::before{
+  content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:.045;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  background-size:200px 200px;
+}
+
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.03em;line-height:.94;text-transform:uppercase}
+p{margin:0}
+
+.h1{font-size:clamp(42px,8.4vw,128px)}
+.h2{font-size:clamp(30px,5.2vw,74px)}
+.h3{font-size:clamp(20px,2vw,26px);letter-spacing:-.02em;line-height:1.1}
+.accent{color:var(--accent)}
+.mono{
+  font-family:var(--mono);font-size:11px;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--muted);
+}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--pad)}
+.sec{padding:clamp(64px,8.5vw,132px) 0;border-top:1px solid var(--line);position:relative}
+.sec-head{margin-bottom:clamp(32px,4.5vw,64px);display:flex;flex-wrap:wrap;gap:20px;align-items:flex-end;justify-content:space-between}
+.sec-head .h2{max-width:16ch}
+.sec-lead{max-width:44ch;color:var(--muted);font-size:clamp(15px,1.3vw,18px);line-height:1.55}
+
+/* ---------- header ---------- */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,8,10,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+.nav{display:flex;align-items:center;gap:22px;height:64px}
+.brand{
+  font-size:13px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  white-space:nowrap;text-decoration:none;
+}
+.brand b{color:var(--accent);font-weight:700}
+.nav-links{display:flex;gap:26px;margin-left:auto}
+.nav-links a{
+  color:var(--muted);text-decoration:none;font-size:12px;letter-spacing:.1em;
+  text-transform:uppercase;transition:color .2s;white-space:nowrap;
+}
+.nav-links a:hover{color:var(--ink)}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;padding:3px;gap:2px}
+.lang button{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;padding:6px 11px;border-radius:999px;
+  background:transparent;border:0;color:var(--muted);cursor:pointer;transition:.2s;
+}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg);font-weight:500}
+.menu-btn{
+  display:none;margin-left:auto;width:40px;height:40px;border:1px solid var(--line);
+  background:transparent;border-radius:10px;cursor:pointer;position:relative;
+}
+.menu-btn i,.menu-btn i::before,.menu-btn i::after{
+  position:absolute;left:50%;transform:translateX(-50%);
+  width:16px;height:1.5px;background:var(--ink);content:"";
+}
+.menu-btn i{top:50%;margin-top:-.75px}
+.menu-btn i::before{top:-5px}
+.menu-btn i::after{top:5px}
+
+/* ---------- scroll progress ---------- */
+.bar{position:fixed;top:0;left:0;height:2px;background:var(--accent);z-index:200;width:0}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:15px 26px;border-radius:999px;border:1px solid var(--line);
+  background:transparent;color:var(--ink);font:inherit;font-size:13px;
+  letter-spacing:.09em;text-transform:uppercase;text-decoration:none;cursor:pointer;
+  transition:transform .25s cubic-bezier(.2,.7,.2,1),border-color .25s,box-shadow .25s,background .25s;
+}
+.btn:hover{transform:translateY(-2px);border-color:#3a3a42}
+.btn--primary{background:var(--accent);border-color:var(--accent);color:#0A0A0B;font-weight:700}
+.btn--primary:hover{box-shadow:0 16px 44px -14px var(--accent);border-color:var(--accent)}
+.btn--wide{width:100%}
+
+/* ---------- hero ---------- */
+.hero{padding-top:clamp(28px,5vw,64px);padding-bottom:clamp(40px,6vw,88px)}
+.hero-grid{display:grid;grid-template-columns:1.06fr .94fr;gap:clamp(28px,4.5vw,60px);align-items:center}
+.hero h1 span{display:block}
+.hero-sub{margin:24px 0 32px;max-width:46ch;color:var(--muted);font-size:clamp(15px,1.25vw,18px);line-height:1.6}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:32px;padding-top:22px;border-top:1px solid var(--line)}
+.hero-meta span{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.hero-meta span::before{content:"◦ ";color:var(--accent)}
+
+.art{position:relative;aspect-ratio:1/1;display:grid;place-items:center}
+.art svg{width:82%;height:auto;color:var(--ink);position:relative;z-index:2}
+.art .glow{
+  position:absolute;inset:8%;z-index:0;
+  background:radial-gradient(circle at 50% 45%,rgba(255,77,0,.22),transparent 62%);
+  filter:blur(10px);
+}
+.art .ring{position:absolute;border-radius:50%;border:1px solid var(--line);z-index:1}
+.art .ring--1{inset:4%}
+.art .ring--2{inset:14%;border-style:dashed;border-color:#2a2a31;animation:spin 70s linear infinite}
+.art .tag{
+  position:absolute;z-index:3;font-family:var(--mono);font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted);
+}
+.art .tag--a{top:12%;right:0}
+.art .tag--b{bottom:10%;left:0}
+
+/* ---------- ticker ---------- */
+.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel);overflow:hidden}
+.ticker-track{display:flex;width:max-content;animation:slide 34s linear infinite}
+.ticker-track span{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);padding:14px 26px;white-space:nowrap;
+}
+.ticker-track span::after{content:"/";margin-left:26px;color:var(--accent)}
+
+/* ---------- cards ---------- */
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(20px,2.8vw,34px);position:relative;overflow:hidden;
+  transition:border-color .3s,background .3s,transform .3s;
+}
+.card:hover{border-color:#35353d;background:var(--panel-2);transform:translateY(-3px)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:18px}
+.card-art{width:clamp(90px,11vw,130px);color:var(--ink);flex:none}
+.card-art .accent{color:var(--accent)}
+.card h3{margin-bottom:6px}
+.card .sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.card p.desc{color:var(--muted);font-size:14.5px;line-height:1.6;margin:14px 0 18px}
+.card ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.card ul li{font-size:13.5px;color:#c9c8c3;display:flex;gap:10px;align-items:flex-start}
+.card ul li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent);flex:none;margin-top:7px}
+.card-link{
+  display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-family:var(--mono);
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);
+  text-decoration:none;border-bottom:1px solid #33333b;padding-bottom:3px;
+}
+.card-link:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ---------- features ---------- */
+.feat-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+}
+.feat{background:var(--bg);padding:clamp(22px,2.6vw,34px);min-height:230px;transition:background .3s}
+.feat:hover{background:var(--panel)}
+.feat .num{font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--accent)}
+.feat h3{margin:14px 0 10px;font-size:clamp(16px,1.5vw,20px);line-height:1.2}
+.feat p{color:var(--muted);font-size:14px;line-height:1.6}
+
+/* ---------- specs ---------- */
+.spec-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.spec{display:grid;grid-template-columns:1.15fr 1fr 1fr;min-width:660px}
+.spec > div{padding:15px 20px;border-bottom:1px solid var(--line);font-size:14px}
+.spec > div:nth-child(3n+1){color:var(--muted);font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center}
+.spec > div:nth-child(3n){border-left:1px solid var(--line)}
+.spec > div:nth-child(3n+2){border-left:1px solid var(--line)}
+.spec .row-h{background:var(--panel-2);font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+.spec .row-h:nth-child(3n+1){font-family:"Space Grotesk",sans-serif;color:var(--ink);font-size:11px;letter-spacing:.14em}
+.spec > div:nth-last-child(-n+3){border-bottom:0}
+
+/* ---------- pricing ---------- */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+.plan{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:clamp(22px,2.6vw,32px);position:relative;transition:border-color .3s,transform .3s;
+}
+.plan:hover{transform:translateY(-3px);border-color:#35353d}
+.plan--hi{border-color:var(--accent);background:linear-gradient(180deg,rgba(255,77,0,.09),transparent 45%),var(--panel)}
+.plan .badge{
+  position:absolute;top:-11px;left:calc(1.6rem);background:var(--accent);color:#0A0A0B;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  padding:5px 11px;border-radius:999px;font-weight:500;
+}
+.plan .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.plan .name{margin:12px 0 4px;font-size:clamp(19px,1.9vw,24px);font-weight:700;letter-spacing:-.02em;text-transform:uppercase}
+.plan .for{color:var(--muted);font-size:14px;min-height:42px}
+.price{display:flex;align-items:baseline;gap:10px;margin:18px 0 4px}
+.price b{font-size:clamp(34px,3.6vw,50px);font-weight:700;letter-spacing:-.04em;line-height:1}
+.price s{color:#5d5d66;font-size:18px;letter-spacing:-.02em}
+.plan .note{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-bottom:20px}
+.plan ul{list-style:none;margin:0 0 24px;padding:18px 0 0;border-top:1px solid var(--line);display:grid;gap:10px}
+.plan ul li{font-size:13.5px;color:#c9c8c3;display:flex;gap:10px}
+.plan ul li::before{content:"—";color:var(--accent);flex:none}
+.plans-note{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px 26px;justify-content:center;text-align:center}
+.plans-note span{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- about ---------- */
+.about{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(28px,4.5vw,72px);align-items:start}
+.about-body p{color:#cfcec9;font-size:clamp(15px,1.35vw,19px);line-height:1.65;margin-bottom:20px;max-width:60ch}
+.about-body p:first-child{color:var(--ink);font-size:clamp(18px,1.8vw,25px);line-height:1.45;letter-spacing:-.01em}
+.sign{margin-top:32px;padding-top:22px;border-top:1px solid var(--line)}
+.sign b{display:block;font-size:15px;letter-spacing:.02em}
+.sign span{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- faq ---------- */
+.faq{display:grid;gap:0;border-top:1px solid var(--line)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{
+  cursor:pointer;list-style:none;padding:22px 0;display:flex;align-items:center;gap:18px;
+  font-size:clamp(15px,1.5vw,19px);font-weight:500;transition:color .2s;
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{color:var(--accent)}
+.faq summary::after{
+  content:"+";margin-left:auto;font-family:var(--mono);font-size:18px;color:var(--muted);
+  transition:transform .25s,color .25s;
+}
+.faq details[open] summary::after{transform:rotate(45deg);color:var(--accent)}
+.faq .ans{padding:0 0 24px;color:var(--muted);font-size:14.5px;line-height:1.65;max-width:70ch}
+
+/* ---------- contact ---------- */
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4.5vw,72px);align-items:start}
+.form{display:grid;gap:14px}
+.field{display:grid;gap:7px}
+.field label{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.field input,.field textarea{
+  font:inherit;font-size:15px;color:var(--ink);background:var(--panel);
+  border:1px solid var(--line);border-radius:12px;padding:13px 15px;width:100%;
+  transition:border-color .2s,background .2s;
+}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent);background:var(--panel-2)}
+.field textarea{resize:vertical;min-height:110px}
+.form-msg{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);min-height:16px}
+.contact-list{display:grid;gap:18px;margin-top:28px}
+.contact-list a{text-decoration:none;display:grid;gap:4px}
+.contact-list a:hover .val{color:var(--accent)}
+.contact-list .val{font-size:clamp(16px,1.6vw,21px);letter-spacing:-.01em;transition:color .2s}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:clamp(36px,5vw,60px) 0 32px;background:var(--panel)}
+.foot-top{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:flex-start;margin-bottom:36px}
+.foot-links{display:flex;flex-wrap:wrap;gap:12px 26px}
+.foot-links a{color:var(--muted);text-decoration:none;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase}
+.foot-links a:hover{color:var(--ink)}
+.foot-bottom{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;padding-top:24px;border-top:1px solid var(--line)}
+.foot-bottom p{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#5d5d66;max-width:70ch;line-height:1.7}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ---------- responsive ---------- */
+@media(max-width:1040px){
+  .feat-grid{grid-template-columns:repeat(2,1fr)}
+  .plans{grid-template-columns:1fr;max-width:560px;margin:0 auto}
+  .plan .for{min-height:0}
+}
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .art{order:-1;max-width:440px;margin:0 auto}
+  .about,.contact{grid-template-columns:1fr}
+  .grid-2{grid-template-columns:1fr}
+}
+@media(max-width:860px){
+  .nav-links{
+    display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;gap:4px;
+    background:var(--bg);border-bottom:1px solid var(--line);padding:14px var(--pad) 22px;
+  }
+  .nav-links.open{display:flex}
+  .nav-links a{padding:10px 0;font-size:14px;border-bottom:1px solid var(--line)}
+  .menu-btn{display:block}
+  .lang{margin-left:0}
+  .nav{gap:12px}
+}
+@media(max-width:640px){
+  .feat-grid{grid-template-columns:1fr}
+  .spec > div{padding:13px 14px;font-size:13px}
+  .hero-meta{gap:8px 16px}
+  .sec-head{flex-direction:column;align-items:flex-start}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">SIGNAL<b>.</b>AUDIO</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#product" data-i18n="nav.product">Товар</a>
+      <a href="#features" data-i18n="nav.features">Особенности</a>
+      <a href="#specs" data-i18n="nav.specs">Характеристики</a>
+      <a href="#pricing" data-i18n="nav.pricing">Цены</a>
+      <a href="#about" data-i18n="nav.about">От себя</a>
+      <a href="#contact" data-i18n="nav.contact">Контакты</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Language">
+      <button id="btnRu" aria-pressed="true">RU</button>
+      <button id="btnEn" aria-pressed="false">EN</button>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><i></i></button>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero wrap" id="top">
+  <div class="hero-grid">
+    <div>
+      <p class="mono" data-i18n="hero.kicker">NOTHING × CMF — сезон 2026</p>
+      <h1 class="h1" style="margin-top:18px">
+        <span data-i18n="hero.t1">ЗВУК,</span>
+        <span class="accent" data-i18n="hero.t2">ОЧИЩЕННЫЙ</span>
+        <span data-i18n="hero.t3">ДО НУЛЯ</span>
+      </h1>
+      <p class="hero-sub" data-i18n="hero.sub">Две модели. Один принцип: убрать всё лишнее и оставить сигнал. Headphone (1) Pro — для полной тишины. CMF Clip Pro — для города, который не хочет замолкать.</p>
+      <div class="hero-cta">
+        <a href="#pricing" class="btn btn--primary" data-i18n="hero.cta1">Выбрать модель</a>
+        <a href="#specs" class="btn" data-i18n="hero.cta2">Характеристики</a>
+      </div>
+      <div class="hero-meta">
+        <span data-i18n="hero.m1">Официальная гарантия</span>
+        <span data-i18n="hero.m2">Доставка 1–4 дня</span>
+        <span data-i18n="hero.m3">Возврат 30 дней</span>
+      </div>
+    </div>
+
+    <div class="art" id="heroArt">
+      <div class="glow"></div>
+      <div class="ring ring--1"></div>
+      <div class="ring ring--2"></div>
+      <span class="tag tag--a mono" data-i18n="hero.tagA">40 мм / 13×8 мм / xMEMS</span>
+      <span class="tag tag--b mono" data-i18n="hero.tagB">ANC −46 дБ</span>
+      <!-- схематичная иллюстрация наушников -->
+      <svg viewBox="0 0 400 400" fill="none" aria-hidden="true">
+        <path d="M92 220V150a108 108 0 0 1 216 0v70" stroke="currentColor" stroke-width="11" stroke-linecap="round"/>
+        <path d="M118 210v-58a82 82 0 0 1 164 0v58" stroke="currentColor" stroke-width="2.5" opacity=".35"/>
+        <rect x="50" y="205" width="74" height="126" rx="32" stroke="currentColor" stroke-width="11"/>
+        <rect x="68" y="228" width="38" height="80" rx="18" stroke="currentColor" stroke-width="2.5" opacity=".4"/>
+        <rect x="276" y="205" width="74" height="126" rx="32" stroke="currentColor" stroke-width="11"/>
+        <rect x="294" y="228" width="38" height="80" rx="18" stroke="currentColor" stroke-width="2.5" opacity=".4"/>
+        <circle cx="87" cy="268" r="5" fill="#FF4D00"/>
+        <circle cx="313" cy="268" r="5" fill="#FF4D00"/>
+        <path d="M200 96v10" stroke="#FF4D00" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TICKER ================= -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span data-i18n="ticker.t1">ANC до 46 дБ</span>
+    <span data-i18n="ticker.t2">68 часов автономности</span>
+    <span data-i18n="ticker.t3">LDAC 24/192</span>
+    <span data-i18n="ticker.t4">10 микрофонов</span>
+    <span data-i18n="ticker.t5">5,92 грамма</span>
+    <span data-i18n="ticker.t6">Metropolis Studios</span>
+    <span data-i18n="ticker.t1">ANC до 46 дБ</span>
+    <span data-i18n="ticker.t2">68 часов автономности</span>
+    <span data-i18n="ticker.t3">LDAC 24/192</span>
+    <span data-i18n="ticker.t4">10 микрофонов</span>
+    <span data-i18n="ticker.t5">5,92 грамма</span>
+    <span data-i18n="ticker.t6">Metropolis Studios</span>
+  </div>
+</div>
+
+<!-- ================= PRODUCT ================= -->
+<section class="sec" id="product">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <p class="mono" data-i18n="prod.kicker">01 — Товар</p>
+        <h2 class="h2" style="margin-top:14px" data-i18n="prod.title">Две модели,<br>ноль компромиссов</h2>
+      </div>
+      <p class="sec-lead" data-i18n="prod.lead">Одна закрывает уши от мира. Вторая — оставляет мир на связи. Выбирайте по сценарию, а не по цене: обе звучат честно.</p>
+    </div>
+
+    <div class="grid-2">
+      <!-- HEADPHONE (1) PRO -->
+      <article class="card reveal">
+        <div class="card-top">
+          <div>
+            <p class="sub" data-i18n="prod.c1tag">Флагман</p>
+            <h3 class="h3" data-i18n="prod.c1name">Headphone (1) Pro</h3>
+            <p class="mono" style="margin-top:8px" data-i18n="prod.c1sub">Накладные · ANC · $399</p>
+          </div>
+          <svg class="card-art" viewBox="0 0 320 320" fill="none" aria-hidden="true">
+            <path d="M72 180v-58a88 88 0 0 1 176 0v58" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+            <rect x="38" y="168" width="60" height="104" rx="26" stroke="currentColor" stroke-width="9"/>
+            <rect x="222" y="168" width="60" height="104" rx="26" stroke="currentColor" stroke-width="9"/>
+            <circle cx="68" cy="220" r="4" fill="#FF4D00"/>
+            <circle cx="252" cy="220" r="4" fill="#FF4D00"/>
+          </svg>
+        </div>
+        <p class="desc" data-i18n="prod.c1d">Три драйвера в каждой чашке, адаптивное шумоподавление и настройка на Metropolis Studios. Всё, чтобы в самолёте стало тихо, а в треке — слышно каждый вдох.</p>
+        <ul>
+          <li data-i18n="prod.c1p1">ANC до 46 дБ, 10 микрофонов</li>
+          <li data-i18n="prod.c1p2">40 мм + 13×8 мм планар + xMEMS</li>
+          <li data-i18n="prod.c1p3">68 ч без ANC / 30 ч с ANC</li>
+          <li data-i18n="prod.c1p4">LDAC, USB-C 24/192, IP52</li>
+        </ul>
+        <a href="#pricing" class="card-link" data-i18n="prod.c1more">Смотреть цену →</a>
+      </article>
+
+      <!-- CMF CLIP PRO -->
+      <article class="card reveal">
+        <div class="card-top">
+          <div>
+            <p class="sub" data-i18n="prod.c2tag">Город</p>
+            <h3 class="h3" data-i18n="prod.c2name">CMF Clip Pro</h3>
+            <p class="mono" style="margin-top:8px" data-i18n="prod.c2sub">Открытые клипсы · $99</p>
+          </div>
+          <svg class="card-art" viewBox="0 0 320 320" fill="none" aria-hidden="true">
+            <path d="M148 82a62 62 0 1 0 34 112" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+            <circle cx="190" cy="196" r="26" stroke="currentColor" stroke-width="10"/>
+            <circle cx="190" cy="196" r="9" fill="#FF4D00"/>
+            <path d="M214 116a52 52 0 0 1 22 44" stroke="currentColor" stroke-width="10" stroke-linecap="round" opacity=".45"/>
+          </svg>
+        </div>
+        <p class="desc" data-i18n="prod.c2d">5,92 грамма на ухе. Не затычка, а клипса: уши дышат, разговор слышно, велосипедная дорога — тоже. Smart Dial на кейсе меняет громкость физически, без экрана.</p>
+        <ul>
+          <li data-i18n="prod.c2p1">10,8 мм драйвер с Ultra Bass</li>
+          <li data-i18n="prod.c2p2">10 ч / 32,5 ч с кейсом</li>
+          <li data-i18n="prod.c2p3">LDAC, IP54, 5,92 г</li>
+          <li data-i18n="prod.c2p4">Smart Dial на кейсе</li>
+        </ul>
+        <a href="#pricing" class="card-link" data-i18n="prod.c2more">Смотреть цену →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section class="sec" id="features">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <p class="mono" data-i18n="feat.kicker">02 — Особенности</p>
+        <h2 class="h2" style="margin-top:14px" data-i18n="feat.title">Что внутри,<br>а не на обложке</h2>
+      </div>
+      <p class="sec-lead" data-i18n="feat.lead">Шесть вещей, за которые платят. Без «кристально чистых верхов» и прочего маркетинга.</p>
+    </div>
+
+    <div class="feat-grid reveal">
+      <div class="feat">
+        <p class="num">01</p>
+        <h3 data-i18n="feat.f1t">Шумоподавление до 46 дБ</h3>
+        <p data-i18n="feat.f1d">10 микрофонов читают комнату 200 раз в секунду и стирают её. Метро, офис, самолёт — результат одинаковый: ноль.</p>
+      </div>
+      <div class="feat">
+        <p class="num">02</p>
+        <h3 data-i18n="feat.f2t">Три драйвера в чашке</h3>
+        <p data-i18n="feat.f2d">40 мм динамик, 13×8 мм планар и xMEMS-твитер. Каждый играет свою полосу — без кроссоверной грязи.</p>
+      </div>
+      <div class="feat">
+        <p class="num">03</p>
+        <h3 data-i18n="feat.f3t">Настройка Metropolis</h3>
+        <p data-i18n="feat.f3d">Профили сведены на легендарной лондонской студии. Это не «улучшайзер», а референсный звук.</p>
+      </div>
+      <div class="feat">
+        <p class="num">04</p>
+        <h3 data-i18n="feat.f4t">68 часов без розетки</h3>
+        <p data-i18n="feat.f4d">Полная неделя в дороге. 5 минут заряда дают около 4 часов музыки — хватает на перелёт.</p>
+      </div>
+      <div class="feat">
+        <p class="num">05</p>
+        <h3 data-i18n="feat.f5t">5,92 грамма свободы</h3>
+        <p data-i18n="feat.f5d">CMF Clip Pro держится за ушную раковину, а не внутри неё. Уши не потеют, переход слышно, очки не мешают.</p>
+      </div>
+      <div class="feat">
+        <p class="num">06</p>
+        <h3 data-i18n="feat.f6t">Smart Dial на кейсе</h3>
+        <p data-i18n="feat.f6d">Громкость и треки крутятся физической ручкой. Без экрана, без приложения, без «ой, не туда нажал».</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPECS ================= -->
+<section class="sec" id="specs">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <p class="mono" data-i18n="spec.kicker">03 — Характеристики</p>
+        <h2 class="h2" style="margin-top:14px" data-i18n="spec.title">Сравнение<br>по цифрам</h2>
+      </div>
+      <p class="sec-lead" data-i18n="spec.lead">На мобильном таблица прокручивается вбок. Все значения — по опубликованным данным производителя.</p>
+    </div>
+
+    <div class="spec-scroll reveal">
+      <div class="spec">
+        <div class="row-h" data-i18n="spec.col1">Параметр</div>
+        <div class="row-h" data-i18n="spec.col2">Headphone (1) Pro</div>
+        <div class="row-h" data-i18n="spec.col3">CMF Clip Pro</div>
+
+        <div data-i18n="spec.r1l">Тип</div><div data-i18n="spec.r1a">Накладные, закрытые</div><div data-i18n="spec.r1b">Открытые клипсы (open-ear)</div>
+        <div data-i18n="spec.r2l">Драйверы</div><div data-i18n="spec.r2a">40 мм + 13×8 мм планар + xMEMS</div><div data-i18n="spec.r2b">10,8 мм, Ultra Bass</div>
+        <div data-i18n="spec.r3l">Шумоподавление</div><div data-i18n="spec.r3a">Адаптивное, до 46 дБ</div><div data-i18n="spec.r3b">Нет (открытая акустика)</div>
+        <div data-i18n="spec.r4l">Автономность</div><div data-i18n="spec.r4a">68 ч без ANC / 30 ч с ANC</div><div data-i18n="spec.r4b">10 ч / 32,5 ч с кейсом</div>
+        <div data-i18n="spec.r5l">Кодеки</div><div data-i18n="spec.r5a">LDAC, AAC, SBC · USB-C 24/192</div><div data-i18n="spec.r5b">LDAC, AAC, SBC</div>
+        <div data-i18n="spec.r6l">Микрофоны</div><div data-i18n="spec.r6a">10</div><div data-i18n="spec.r6b">2 на наушник, AI-фильтр звонков</div>
+        <div data-i18n="spec.r7l">Вес</div><div data-i18n="spec.r7a">327 г</div><div data-i18n="spec.r7b">5,92 г (один наушник)</div>
+        <div data-i18n="spec.r8l">Защита</div><div data-i18n="spec.r8a">IP52</div><div data-i18n="spec.r8b">IP54</div>
+        <div data-i18n="spec.r9l">Управление</div><div data-i18n="spec.r9a">Сенсорные панели + приложение</div><div data-i18n="spec.r9b">Smart Dial на кейсе</div>
+        <div data-i18n="spec.r10l">Цена</div><div data-i18n="spec.r10a" class="accent">$399</div><div data-i18n="spec.r10b" class="accent">$99</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PRICING ================= -->
+<section class="sec" id="pricing">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <p class="mono" data-i18n="price.kicker">04 — Цены</p>
+        <h2 class="h2" style="margin-top:14px" data-i18n="price.title">Три способа<br>забрать звук</h2>
+      </div>
+      <p class="sec-lead" data-i18n="price.lead">В комплекте — всё, что нужно. Никаких «кабель докупите отдельно».</p>
+    </div>
+
+    <div class="plans reveal">
+      <!-- CMF -->
+      <article class="plan">
+        <p class="tag" data-i18n="price.p1tag">Город</p>
+        <h3 class="name" data-i18n="price.p1name">CMF Clip Pro</h3>
+        <p class="for" data-i18n="price.p1for">Для улицы, спорта и разговоров, которые не хочется прерывать.</p>
+        <div class="price"><b data-i18n="price.p1price">$99</b></div>
+        <p class="note" data-i18n="price.p1note">В наличии · доставка 1–3 дня</p>
+        <ul>
+          <li data-i18n="price.p1i1">Наушники + кейс с Smart Dial</li>
+          <li data-i18n="price.p1i2">Кабель USB-C</li>
+          <li data-i18n="price.p1i3">Гарантия 1 год</li>
+          <li data-i18n="price.p1i4">Возврат 30 дней</li>
+        </ul>
+        <a href="#contact" class="btn btn--wide" data-i18n="price.p1btn">Заказать</a>
+      </article>
+
+      <!-- FLAGSHIP -->
+      <article class="plan plan--hi">
+        <span class="badge" data-i18n="price.badge">Выбор покупателей</span>
+        <p class="tag" data-i18n="price.p2tag">Тишина</p>
+        <h3 class="name" data-i18n="price.p2name">Headphone (1) Pro</h3>
+        <p class="for" data-i18n="price.p2for">Для самолёта, студии и тех дней, когда нужно выключить мир.</p>
+        <div class="price"><b data-i18n="price.p2price">$399</b></div>
+        <p class="note" data-i18n="price.p2note">В наличии · доставка 1–3 дня</p>
+        <ul>
+          <li data-i18n="price.p2i1">Наушники + жёсткий кейс</li>
+          <li data-i18n="price.p2i2">Кабель USB-C 24/192 и 3,5 мм</li>
+          <li data-i18n="price.p2i3">Гарантия 2 года</li>
+          <li data-i18n="price.p2i4">Настройка профилей Metropolis</li>
+        </ul>
+        <a href="#contact" class="btn btn--primary btn--wide" data-i18n="price.p2btn">Заказать</a>
+      </article>
+
+      <!-- BUNDLE -->
+      <article class="plan">
+        <p class="tag" data-i18n="price.p3tag">Комплект</p>
+        <h3 class="name" data-i18n="price.p3name">Duo Bundle</h3>
+        <p class="for" data-i18n="price.p3for">Один для улицы, второй для полёта. Логичное решение.</p>
+        <div class="price"><b data-i18n="price.p3price">$449</b><s data-i18n="price.p3old">$498</s></div>
+        <p class="note accent" data-i18n="price.p3note">Экономия $49</p>
+        <ul>
+          <li data-i18n="price.p3i1">Обе модели в одной посылке</li>
+          <li data-i18n="price.p3i2">Два кейса, два кабеля</li>
+          <li data-i18n="price.p3i3">Гарантия 2 года на всё</li>
+          <li data-i18n="price.p3i4">Бесплатная доставка</li>
+        </ul>
+        <a href="#contact" class="btn btn--wide" data-i18n="price.p3btn">Заказать комплект</a>
+      </article>
+    </div>
+
+    <div class="plans-note reveal">
+      <span data-i18n="price.n1">Цены в USD, без местных налогов</span>
+      <span data-i18n="price.n2">Рассрочка 0% на 6 месяцев</span>
+      <span data-i18n="price.n3">Оплата при получении — доступна</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="sec" id="about">
+  <div class="wrap">
+    <div class="about">
+      <div class="reveal">
+        <p class="mono" data-i18n="about.kicker">05 — От себя</p>
+        <h2 class="h2" style="margin-top:14px" data-i18n="about.title">Почему<br>именно эти</h2>
+      </div>
+      <div class="about-body reveal">
+        <p data-i18n="about.p1">Я взял первые Nothing на спор — из-за прозрачной крышки. Через неделю понял: прозрачность здесь не дизайн, а честность. Видно каждый винт, и прятать нечего.</p>
+        <p data-i18n="about.p2">Этот сайт — про то же. Никаких стоковых улыбок и «кристально чистых высоких». Граммы, децибелы, часы работы. А решение — за вами.</p>
+        <p data-i18n="about.p3">Мы держим только две модели, потому что выбрать из двух — легко, а из тридцати — невозможно. Если после прочтения остались вопросы, напишите: отвечу сам, без скриптов поддержки.</p>
+        <div class="sign">
+          <b data-i18n="about.sign">— команда SIGNAL</b>
+          <span data-i18n="about.role">отдел звука · Москва</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div>
+        <p class="mono" data-i18n="faq.kicker">06 — Вопросы</p>
+        <h2 class="h2" style="margin-top:14px" data-i18n="faq.title">Коротко<br>по делу</h2>
+      </div>
+    </div>
+    <div class="faq reveal">
+      <details open>
+        <summary data-i18n="faq.q1">Сколько идёт доставка?</summary>
+        <div class="ans" data-i18n="faq.a1">Москва и Санкт-Петербург — 1 день. Остальные города — 2–4 дня. Самовывоз со склада в Москве возможен в день заказа. Комплект Duo доставляем бесплатно.</div>
+      </details>
+      <details>
+        <summary data-i18n="faq.q2">Можно вернуть, если не подошло?</summary>
+        <div class="ans" data-i18n="faq.a2">Да, 30 дней без объяснения причин. Если упаковка вскрыта — вернём деньги при условии, что наушники без повреждений и в полном комплекте.</div>
+      </details>
+      <details>
+        <summary data-i18n="faq.q3">Что с гарантией и сервисом?</summary>
+        <div class="ans" data-i18n="faq.a3">2 года на Headphone (1) Pro, 1 год на CMF Clip Pro. Сервис авторизованный: меняем по гарантии, а не отправляем «на диагностику на три недели».</div>
+      </details>
+      <details>
+        <summary data-i18n="faq.q4">Есть ли рассрочка?</summary>
+        <div class="ans" data-i18n="faq.a4">Да, 0% на 6 месяцев без первоначального взноса. Оформляется при заказе, одобрение занимает пару минут.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="sec" id="contact">
+  <div class="wrap">
+    <div class="contact">
+      <div class="reveal">
+        <p class="mono" data-i18n="ct.kicker">07 — Контакты</p>
+        <h2 class="h2" style="margin-top:14px" data-i18n="ct.title">Напишите —<br>ответим сами</h2>
+        <p class="sec-lead" style="margin-top:22px" data-i18n="ct.lead">Поможем выбрать между двумя моделями, посчитаем комплект и подскажем, что будет в наличии к нужной дате.</p>
+        <div class="contact-list">
+          <a href="mailto:hello@signal.audio">
+            <span class="mono" data-i18n="ct.l1">Почта</span>
+            <span class="val">hello@signal.audio</span>
+          </a>
+          <a href="tel:+74950000000">
+            <span class="mono" data-i18n="ct.l2">Телефон</span>
+            <span class="val">+7 495 000-00-00</span>
+          </a>
+          <a href="#top">
+            <span class="mono" data-i18n="ct.l3">Склад и самовывоз</span>
+            <span class="val" data-i18n="ct.l3v">Москва, по записи</span>
+          </a>
+        </div>
+      </div>
+
+      <form class="form reveal" id="orderForm" novalidate>
+        <div class="field">
+          <label for="fName" data-i18n="form.name">Как вас зовут</label>
+          <input id="fName" name="name" type="text" required data-i18n-ph="form.namePh" placeholder="Имя">
+        </div>
+        <div class="field">
+          <label for="fMail" data-i18n="form.email">Почта или телефон</label>
+          <input id="fMail" name="email" type="text" required data-i18n-ph="form.emailPh" placeholder="you@mail.ru">
+        </div>
+        <div class="field">
+          <label for="fMsg" data-i18n="form.msg">Что интересует</label>
+          <textarea id="fMsg" name="message" data-i18n-ph="form.msgPh" placeholder="Например: Duo Bundle, доставка в Казань"></textarea>
+        </div>
+        <button class="btn btn--primary btn--wide" type="submit" data-i18n="form.send">Отправить заявку</button>
+        <p class="form-msg" id="formMsg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <a class="brand" href="#top">SIGNAL<b>.</b>AUDIO</a>
+      <div class="foot-links">
+        <a href="#product" data-i18n="nav.product">Товар</a>
+        <a href="#features" data-i18n="nav.features">Особенности</a>
+        <a href="#specs" data-i18n="nav.specs">Характеристики</a>
+        <a href="#pricing" data-i18n="nav.pricing">Цены</a>
+        <a href="#faq" data-i18n="nav.faq">Вопросы</a>
+        <a href="#contact" data-i18n="nav.contact">Контакты</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <p data-i18n="foot.disclaimer">Демонстрационный лендинг. Не является официальным сайтом Nothing Technology Limited. Названия продуктов принадлежат их правообладателям. Характеристики приведены по опубликованным данным — сверьте перед публикацией.</p>
+      <p>© <span id="year">2026</span> SIGNAL.AUDIO</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============ ПЕРЕВОДЫ ============ */
+const I18N = {
+  ru: {
+    "nav.product":"Товар","nav.features":"Особенности","nav.specs":"Характеристики",
+    "nav.pricing":"Цены","nav.about":"От себя","nav.contact":"Контакты","nav.faq":"Вопросы",
+
+    "hero.kicker":"NOTHING × CMF — сезон 2026",
+    "hero.t1":"ЗВУК,","hero.t2":"ОЧИЩЕННЫЙ","hero.t3":"ДО НУЛЯ",
+    "hero.sub":"Две модели. Один принцип: убрать всё лишнее и оставить сигнал. Headphone (1) Pro — для полной тишины. CMF Clip Pro — для города, который не хочет замолкать.",
+    "hero.cta1":"Выбрать модель","hero.cta2":"Характеристики",
+    "hero.m1":"Официальная гарантия","hero.m2":"Доставка 1–4 дня","hero.m3":"Возврат 30 дней",
+    "hero.tagA":"40 мм / 13×8 мм / xMEMS","hero.tagB":"ANC −46 дБ",
+
+    "ticker.t1":"ANC до 46 дБ","ticker.t2":"68 часов автономности","ticker.t3":"LDAC 24/192",
+    "ticker.t4":"10 микрофонов","ticker.t5":"5,92 грамма","ticker.t6":"Metropolis Studios",
+
+    "prod.kicker":"01 — Товар","prod.title":"Две модели,<br>ноль компромиссов",
+    "prod.lead":"Одна закрывает уши от мира. Вторая — оставляет мир на связи. Выбирайте по сценарию, а не по цене: обе звучат честно.",
+    "prod.c1tag":"Флагман","prod.c1name":"Headphone (1) Pro","prod.c1sub":"Накладные · ANC · $399",
+    "prod.c1d":"Три драйвера в каждой чашке, адаптивное шумоподавление и настройка на Metropolis Studios. Всё, чтобы в самолёте стало тихо, а в треке — слышно каждый вдох.",
+    "prod.c1p1":"ANC до 46 дБ, 10 микрофонов","prod.c1p2":"40 мм + 13×8 мм планар + xMEMS",
+    "prod.c1p3":"68 ч без ANC / 30 ч с ANC","prod.c1p4":"LDAC, USB-C 24/192, IP52","prod.c1more":"Смотреть цену →",
+    "prod.c2tag":"Город","prod.c2name":"CMF Clip Pro","prod.c2sub":"Открытые клипсы · $99",
+    "prod.c2d":"5,92 грамма на ухе. Не затычка, а клипса: уши дышат, разговор слышно, велосипедная дорога — тоже. Smart Dial на кейсе меняет громкость физически, без экрана.",
+    "prod.c2p1":"10,8 мм драйвер с Ultra Bass","prod.c2p2":"10 ч / 32,5 ч с кейсом",
+    "prod.c2p3":"LDAC, IP54, 5,92 г","prod.c2p4":"Smart Dial на кейсе","prod.c2more":"Смотреть цену →",
+
+    "feat.kicker":"02 — Особенности","feat.title":"Что внутри,<br>а не на обложке",
+    "feat.lead":"Шесть вещей, за которые платят. Без «кристально чистых верхов» и прочего маркетинга.",
+    "feat.f1t":"Шумоподавление до 46 дБ","feat.f1d":"10 микрофонов читают комнату 200 раз в секунду и стирают её. Метро, офис, самолёт — результат одинаковый: ноль.",
+    "feat.f2t":"Три драйвера в чашке","feat.f2d":"40 мм динамик, 13×8 мм планар и xMEMS-твитер. Каждый играет свою полосу — без кроссоверной грязи.",
+    "feat.f3t":"Настройка Metropolis","feat.f3d":"Профили сведены на легендарной лондонской студии. Это не «улучшайзер», а референсный звук.",
+    "feat.f4t":"68 часов без розетки","feat.f4d":"Полная неделя в дороге. 5 минут заряда дают около 4 часов музыки — хватает на перелёт.",
+    "feat.f5t":"5,92 грамма свободы","feat.f5d":"CMF Clip Pro держится за ушную раковину, а не внутри неё. Уши не потеют, переход слышно, очки не мешают.",
+    "feat.f6t":"Smart Dial на кейсе","feat.f6d":"Громкость и треки крутятся физической ручкой. Без экрана, без приложения, без «ой, не туда нажал».",
+
+    "spec.kicker":"03 — Характеристики","spec.title":"Сравнение<br>по цифрам",
+    "spec.lead":"На мобильном таблица прокручивается вбок. Все значения — по опубликованным данным производителя.",
+    "spec.col1":"Параметр","spec.col2":"Headphone (1) Pro","spec.col3":"CMF Clip Pro",
+    "spec.r1l":"Тип","spec.r1a":"Накладные, закрытые","spec.r1b":"Открытые клипсы (open-ear)",
+    "spec.r2l":"Драйверы","spec.r2a":"40 мм + 13×8 мм планар + xMEMS","spec.r2b":"10,8 мм, Ultra Bass",
+    "spec.r3l":"Шумоподавление","spec.r3a":"Адаптивное, до 46 дБ","spec.r3b":"Нет (открытая акустика)",
+    "spec.r4l":"Автономность","spec.r4a":"68 ч без ANC / 30 ч с ANC","spec.r4b":"10 ч / 32,5 ч с кейсом",
+    "spec.r5l":"Кодеки","spec.r5a":"LDAC, AAC, SBC · USB-C 24/192","spec.r5b":"LDAC, AAC, SBC",
+    "spec.r6l":"Микрофоны","spec.r6a":"10","spec.r6b":"2 на наушник, AI-фильтр звонков",
+    "spec.r7l":"Вес","spec.r7a":"327 г","spec.r7b":"5,92 г (один наушник)",
+    "spec.r8l":"Защита","spec.r8a":"IP52","spec.r8b":"IP54",
+    "spec.r9l":"Управление","spec.r9a":"Сенсорные панели + приложение","spec.r9b":"Smart Dial на кейсе",
+    "spec.r10l":"Цена","spec.r10a":"$399","spec.r10b":"$99",
+
+    "price.kicker":"04 — Цены","price.title":"Три способа<br>забрать звук",
+    "price.lead":"В комплекте — всё, что нужно. Никаких «кабель докупите отдельно».",
+    "price.badge":"Выбор покупателей",
+    "price.p1tag":"Город","price.p1name":"CMF Clip Pro",
+    "price.p1for":"Для улицы, спорта и разговоров, которые не хочется прерывать.",
+    "price.p1price":"$99","price.p1note":"В наличии · доставка 1–3 дня",
+    "price.p1i1":"Наушники + кейс с Smart Dial","price.p1i2":"Кабель USB-C",
+    "price.p1i3":"Гарантия 1 год","price.p1i4":"Возврат 30 дней","price.p1btn":"Заказать",
+    "price.p2tag":"Тишина","price.p2name":"Headphone (1) Pro",
+    "price.p2for":"Для самолёта, студии и тех дней, когда нужно выключить мир.",
+    "price.p2price":"$399","price.p2note":"В наличии · доставка 1–3 дня",
+    "price.p2i1":"Наушники + жёсткий кейс","price.p2i2":"Кабель USB-C 24/192 и 3,5 мм",
+    "price.p2i3":"Гарантия 2 года","price.p2i4":"Настройка профилей Metropolis","price.p2btn":"Заказать",
+    "price.p3tag":"Комплект","price.p3name":"Duo Bundle",
+    "price.p3for":"Один для улицы, второй для полёта. Логичное решение.",
+    "price.p3price":"$449","price.p3old":"$498","price.p3note":"Экономия $49",
+    "price.p3i1":"Обе модели в одной посылке","price.p3i2":"Два кейса, два кабеля",
+    "price.p3i3":"Гарантия 2 года на всё","price.p3i4":"Бесплатная доставка","price.p3btn":"Заказать комплект",
+    "price.n1":"Цены в USD, без местных налогов","price.n2":"Рассрочка 0% на 6 месяцев","price.n3":"Оплата при получении — доступна",
+
+    "about.kicker":"05 — От себя","about.title":"Почему<br>именно эти",
+    "about.p1":"Я взял первые Nothing на спор — из-за прозрачной крышки. Через неделю понял: прозрачность здесь не дизайн, а честность. Видно каждый винт, и прятать нечего.",
+    "about.p2":"Этот сайт — про то же. Никаких стоковых улыбок и «кристально чистых высоких». Граммы, децибелы, часы работы. А решение — за вами.",
+    "about.p3":"Мы держим только две модели, потому что выбрать из двух — легко, а из тридцати — невозможно. Если после прочтения остались вопросы, напишите: отвечу сам, без скриптов поддержки.",
+    "about.sign":"— команда SIGNAL","about.role":"отдел звука · Москва",
+
+    "faq.kicker":"06 — Вопросы","faq.title":"Коротко<br>по делу",
+    "faq.q1":"Сколько идёт доставка?",
+    "faq.a1":"Москва и Санкт-Петербург — 1 день. Остальные города — 2–4 дня. Самовывоз со склада в Москве возможен в день заказа. Комплект Duo доставляем бесплатно.",
+    "faq.q2":"Можно вернуть, если не подошло?",
+    "faq.a2":"Да, 30 дней без объяснения причин. Если упаковка вскрыта — вернём деньги при условии, что наушники без повреждений и в полном комплекте.",
+    "faq.q3":"Что с гарантией и сервисом?",
+    "faq.a3":"2 года на Headphone (1) Pro, 1 год на CMF Clip Pro. Сервис авторизованный: меняем по гарантии, а не отправляем «на диагностику на три недели».",
+    "faq.q4":"Есть ли рассрочка?",
+    "faq.a4":"Да, 0% на 6 месяцев без первоначального взноса. Оформляется при заказе, одобрение занимает пару минут.",
+
+    "ct.kicker":"07 — Контакты","ct.title":"Напишите —<br>ответим сами",
+    "ct.lead":"Поможем выбрать между двумя моделями, посчитаем комплект и подскажем, что будет в наличии к нужной дате.",
+    "ct.l1":"Почта","ct.l2":"Телефон","ct.l3":"Склад и самовывоз","ct.l3v":"Москва, по записи",
+
+    "form.name":"Как вас зовут","form.namePh":"Имя",
+    "form.email":"Почта или телефон","form.emailPh":"you@mail.ru",
+    "form.msg":"Что интересует","form.msgPh":"Например: Duo Bundle, доставка в Казань",
+    "form.send":"Отправить заявку",
+    "form.ok":"Заявка принята — ответим в течение дня","form.err":"Заполните имя и контакт",
+
+    "foot.disclaimer":"Демонстрационный лендинг. Не является официальным сайтом Nothing Technology Limited. Названия продуктов принадлежат их правообладателям. Характеристики приведены по опубликованным данным — сверьте перед публикацией."
+  },
+
+  en: {
+    "nav.product":"Product","nav.features":"Features","nav.specs":"Specs",
+    "nav.pricing":"Pricing","nav.about":"Why us","nav.contact":"Contact","nav.faq":"FAQ",
+
+    "hero.kicker":"NOTHING × CMF — 2026 season",
+    "hero.t1":"SOUND","hero.t2":"STRIPPED","hero.t3":"TO ZERO",
+    "hero.sub":"Two models. One principle: remove everything unnecessary and keep the signal. Headphone (1) Pro for total silence. CMF Clip Pro for a city that refuses to quiet down.",
+    "hero.cta1":"Choose a model","hero.cta2":"Specs",
+    "hero.m1":"Official warranty","hero.m2":"Shipping 1–4 days","hero.m3":"30-day returns",
+    "hero.tagA":"40 mm / 13×8 mm / xMEMS","hero.tagB":"ANC −46 dB",
+
+    "ticker.t1":"ANC up to 46 dB","ticker.t2":"68 hours of playback","ticker.t3":"LDAC 24/192",
+    "ticker.t4":"10 microphones","ticker.t5":"5.92 grams","ticker.t6":"Metropolis Studios",
+
+    "prod.kicker":"01 — Product","prod.title":"Two models,<br>zero compromises",
+    "prod.lead":"One shuts the world out. The other keeps the world on the line. Pick by scenario, not by price: both are honest.",
+    "prod.c1tag":"Flagship","prod.c1name":"Headphone (1) Pro","prod.c1sub":"Over-ear · ANC · $399",
+    "prod.c1d":"Three drivers per cup, adaptive noise cancelling and tuning by Metropolis Studios. So the plane goes quiet and the track reveals every breath.",
+    "prod.c1p1":"ANC up to 46 dB, 10 mics","prod.c1p2":"40 mm + 13×8 mm planar + xMEMS",
+    "prod.c1p3":"68 h without ANC / 30 h with ANC","prod.c1p4":"LDAC, USB-C 24/192, IP52","prod.c1more":"See pricing →",
+    "prod.c2tag":"City","prod.c2name":"CMF Clip Pro","prod.c2sub":"Open-ear clips · $99",
+    "prod.c2d":"5.92 grams on your ear. Not a plug but a clip: ears breathe, conversations stay audible, so does traffic. The case Smart Dial changes volume physically, no screen needed.",
+    "prod.c2p1":"10.8 mm driver with Ultra Bass","prod.c2p2":"10 h / 32.5 h with case",
+    "prod.c2p3":"LDAC, IP54, 5.92 g","prod.c2p4":"Smart Dial on the case","prod.c2more":"See pricing →",
+
+    "feat.kicker":"02 — Features","feat.title":"What is inside,<br>not on the box",
+    "feat.lead":"Six things worth paying for. No sparkling highs, no marketing filler.",
+    "feat.f1t":"Noise cancelling up to 46 dB","feat.f1d":"10 microphones scan the room 200 times a second and erase it. Subway, office, plane — the same result: zero.",
+    "feat.f2t":"Three drivers per cup","feat.f2d":"A 40 mm dynamic, a 13×8 mm planar and an xMEMS tweeter. Each plays its own band, with no crossover mush.",
+    "feat.f3t":"Metropolis tuning","feat.f3d":"Profiles dialled in at the legendary London studio. Not an enhancer — a reference.",
+    "feat.f4t":"68 hours off the grid","feat.f4d":"A full week on the road. Five minutes of charge get you about four hours — enough for a flight.",
+    "feat.f5t":"5.92 grams of freedom","feat.f5d":"CMF Clip Pro hangs on the outer ear, not inside it. Ears stay dry, traffic stays audible, glasses stay comfortable.",
+    "feat.f6t":"Smart Dial on the case","feat.f6d":"Volume and tracks turn on a physical knob. No screen, no app, no mis-taps.",
+
+    "spec.kicker":"03 — Specs","spec.title":"Compared<br>in numbers",
+    "spec.lead":"The table scrolls sideways on mobile. All figures follow published manufacturer data.",
+    "spec.col1":"Spec","spec.col2":"Headphone (1) Pro","spec.col3":"CMF Clip Pro",
+    "spec.r1l":"Type","spec.r1a":"Over-ear, closed","spec.r1b":"Open-ear clips",
+    "spec.r2l":"Drivers","spec.r2a":"40 mm + 13×8 mm planar + xMEMS","spec.r2b":"10.8 mm, Ultra Bass",
+    "spec.r3l":"ANC","spec.r3a":"Adaptive, up to 46 dB","spec.r3b":"None (open acoustics)",
+    "spec.r4l":"Battery","spec.r4a":"68 h without ANC / 30 h with ANC","spec.r4b":"10 h / 32.5 h with case",
+    "spec.r5l":"Codecs","spec.r5a":"LDAC, AAC, SBC · USB-C 24/192","spec.r5b":"LDAC, AAC, SBC",
+    "spec.r6l":"Microphones","spec.r6a":"10","spec.r6b":"2 per bud, AI call filter",
+    "spec.r7l":"Weight","spec.r7a":"327 g","spec.r7b":"5.92 g (one bud)",
+    "spec.r8l":"Rating","spec.r8a":"IP52","spec.r8b":"IP54",
+    "spec.r9l":"Controls","spec.r9a":"Touch panels + app","spec.r9b":"Smart Dial on the case",
+    "spec.r10l":"Price","spec.r10a":"$399","spec.r10b":"$99",
+
+    "price.kicker":"04 — Pricing","price.title":"Three ways<br>to take the sound",
+    "price.lead":"Everything you need is in the box. No buy-the-cable-separately nonsense.",
+    "price.badge":"Most popular",
+    "price.p1tag":"City","price.p1name":"CMF Clip Pro",
+    "price.p1for":"For streets, workouts and conversations you do not want to pause.",
+    "price.p1price":"$99","price.p1note":"In stock · ships in 1–3 days",
+    "price.p1i1":"Earbuds + Smart Dial case","price.p1i2":"USB-C cable",
+    "price.p1i3":"1-year warranty","price.p1i4":"30-day returns","price.p1btn":"Order",
+    "price.p2tag":"Silence","price.p2name":"Headphone (1) Pro",
+    "price.p2for":"For flights, the studio and the days you need the world switched off.",
+    "price.p2price":"$399","price.p2note":"In stock · ships in 1–3 days",
+    "price.p2i1":"Headphones + hard case","price.p2i2":"USB-C 24/192 and 3.5 mm cables",
+    "price.p2i3":"2-year warranty","price.p2i4":"Metropolis profile setup","price.p2btn":"Order",
+    "price.p3tag":"Bundle","price.p3name":"Duo Bundle",
+    "price.p3for":"One for the street, one for the flight. The logical choice.",
+    "price.p3price":"$449","price.p3old":"$498","price.p3note":"You save $49",
+    "price.p3i1":"Both models in one box","price.p3i2":"Two cases, two cables",
+    "price.p3i3":"2-year warranty on both","price.p3i4":"Free shipping","price.p3btn":"Order the bundle",
+    "price.n1":"Prices in USD, taxes excluded","price.n2":"0% instalments over 6 months","price.n3":"Cash on delivery available",
+
+    "about.kicker":"05 — Why us","about.title":"Why<br>these two",
+    "about.p1":"I bought my first Nothing on a dare — because of the transparent shell. A week later I got it: the transparency is not design, it is honesty. Every screw is visible and there is nothing to hide.",
+    "about.p2":"This page works the same way. No stock smiles, no sparkling highs. Grams, decibels, hours. The decision stays yours.",
+    "about.p3":"We stock only two models, because choosing between two is easy and choosing between thirty is impossible. If questions remain, write to us — I answer personally, no support scripts.",
+    "about.sign":"— the SIGNAL team","about.role":"sound department · Moscow",
+
+    "faq.kicker":"06 — FAQ","faq.title":"Straight<br>answers",
+    "faq.q1":"How long does shipping take?",
+    "faq.a1":"Moscow and St Petersburg — 1 day. Other cities — 2–4 days. Same-day pickup from the Moscow warehouse. The Duo bundle ships free.",
+    "faq.q2":"Can I return them if they do not fit?",
+    "faq.a2":"Yes, 30 days, no questions asked. If the box is opened we refund as long as the headphones are undamaged and complete.",
+    "faq.q3":"What about warranty and service?",
+    "faq.a3":"2 years for Headphone (1) Pro, 1 year for CMF Clip Pro. Authorised service: we replace under warranty instead of sending it off for three weeks.",
+    "faq.q4":"Do you offer instalments?",
+    "faq.a4":"Yes, 0% over 6 months with no down payment. Arranged at checkout, approval takes a couple of minutes.",
+
+    "ct.kicker":"07 — Contact","ct.title":"Write to us —<br>we answer ourselves",
+    "ct.lead":"We will help you choose between the two models, price the bundle and tell you what is in stock for your date.",
+    "ct.l1":"Email","ct.l2":"Phone","ct.l3":"Warehouse pickup","ct.l3v":"Moscow, by appointment",
+
+    "form.name":"Your name","form.namePh":"Name",
+    "form.email":"Email or phone","form.emailPh":"you@mail.com",
+    "form.msg":"What you need","form.msgPh":"For example: Duo Bundle, shipping to Berlin",
+    "form.send":"Send request",
+    "form.ok":"Request received — we will reply within a day","form.err":"Please fill in your name and contact",
+
+    "foot.disclaimer":"Demo landing page. Not an official Nothing Technology Limited website. Product names belong to their respective owners. Specs follow published data — verify before going live."
+  }
+};
+
+/* ============ ЯЗЫК ============ */
+const TITLES = {
+  ru:"NOTHING × CMF — звук, очищенный до нуля",
+  en:"NOTHING × CMF — sound stripped to zero"
+};
+
+function setLang(lang){
+  const dict = I18N[lang];
+  document.documentElement.lang = lang;
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+    if (dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+  document.querySelectorAll("[data-i18n-ph]").forEach(el => {
+    const key = el.dataset.i18nPh;
+    if (dict[key] !== undefined) el.placeholder = dict[key];
+  });
+
+  document.title = TITLES[lang] || document.title;
+  document.getElementById("btnRu").setAttribute("aria-pressed", String(lang === "ru"));
+  document.getElementById("btnEn").setAttribute("aria-pressed", String(lang === "en"));
+  try { localStorage.setItem("lang", lang); } catch(e){}
+}
+
+document.getElementById("btnRu").addEventListener("click", () => setLang("ru"));
+document.getElementById("btnEn").addEventListener("click", () => setLang("en"));
+
+let saved = "ru";
+try { saved = localStorage.getItem("lang") || "ru"; } catch(e){}
+setLang(saved);
+
+/* ============ МЕНЮ ============ */
+const menuBtn = document.getElementById("menuBtn");
+const navLinks = document.getElementById("navLinks");
+menuBtn.addEventListener("click", () => {
+  const open = navLinks.classList.toggle("open");
+  menuBtn.setAttribute("aria-expanded", String(open));
+});
+navLinks.addEventListener("click", e => {
+  if (e.target.tagName === "A") {
+    navLinks.classList.remove("open");
+    menuBtn.setAttribute("aria-expanded","false");
+  }
+});
+
+/* ============ ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ ============ */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); }
+  });
+}, { threshold: .12, rootMargin: "0px 0px -8% 0px" });
+document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+
+/* ============ ПРОГРЕСС СКРОЛЛА ============ */
+const bar = document.getElementById("bar");
+function onScroll(){
+  const h = document.documentElement;
+  const max = h.scrollHeight - h.clientHeight;
+  bar.style.width = max > 0 ? (h.scrollTop / max * 100) + "%" : "0%";
+}
+window.addEventListener("scroll", onScroll, { passive: true });
+onScroll();
+
+/* ============ ФОРМА ============ */
+const form = document.getElementById("orderForm");
+const formMsg = document.getElementById("formMsg");
+form.addEventListener("submit", e => {
+  e.preventDefault();
+  const lang = document.documentElement.lang;
+  const name = form.name.value.trim();
+  const contact = form.email.value.trim();
+
+  if (!name || !contact) {
+    formMsg.style.color = "#FF4D00";
+    formMsg.textContent = I18N[lang]["form.err"];
+    return;
+  }
+  // ЗАГЛУШКА: здесь подключается реальная отправка (Formspree / Telegram-бот / свой backend)
+  formMsg.style.color = "#FF4D00";
+  formMsg.textContent = I18N[lang]["form.ok"];
+  form.reset();
+});
+
+/* ============ ГОД ============ */
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
